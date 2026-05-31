@@ -14,13 +14,11 @@ from tempfile import NamedTemporaryFile
 from datetime import datetime
 from zoneinfo import ZoneInfo
 
-# --- KONFIGURASI DATABASE ---
 DATABASE_URL = os.getenv("DATABASE_URL", "mysql+pymysql://kasrw_user:password123@db:3306/kasrw_db")
 engine = create_engine(DATABASE_URL)
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 Base = declarative_base()
 
-# --- MODEL DATABASE ---
 class DBTransaksi(Base):
     __tablename__ = "transaksi"
     id = Column(Integer, primary_key=True, index=True)
@@ -29,7 +27,6 @@ class DBTransaksi(Base):
     tipe = Column(Enum('Pemasukan', 'Pengeluaran'), nullable=False)
     jumlah = Column(Numeric(15, 2), nullable=False)
 
-# --- SCHEMA VALIDASI (PYDANTIC) ---
 class TransaksiBase(BaseModel):
     tanggal: date
     keterangan: str
@@ -44,10 +41,8 @@ class TransaksiResponse(TransaksiBase):
     class Config:
         from_attributes = True
 
-# --- INISIALISASI APLIKASI ---
 app = FastAPI(title="API Kas Digital RW 25")
 
-# Izinkan Frontend mengakses API (CORS)
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"], 
@@ -55,7 +50,6 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# Dependency untuk sesi database
 def get_db():
     db = SessionLocal()
     try:
@@ -63,7 +57,6 @@ def get_db():
     finally:
         db.close()
 
-# --- ENDPOINT CRUD ---
 
 # 1. CREATE: Tambah transaksi baru
 @app.post("/transaksi", response_model=TransaksiResponse)
