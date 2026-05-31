@@ -12,6 +12,7 @@ from jinja2 import Environment, FileSystemLoader
 from weasyprint import HTML
 from tempfile import NamedTemporaryFile
 from datetime import datetime
+from zoneinfo import ZoneInfo
 
 # --- KONFIGURASI DATABASE ---
 DATABASE_URL = os.getenv("DATABASE_URL", "mysql+pymysql://kasrw_user:password123@db:3306/kasrw_db")
@@ -139,13 +140,16 @@ def export_pdf(db: Session = Depends(get_db)):
 
     template = env.get_template("report.html")
 
+
+    now = datetime.now(ZoneInfo("Asia/Jakarta"))
+
     html_content = template.render(
         transaksi=transaksi,
         saldo=saldo,
         total_income=total_income,
         total_expense=total_expense,
-        printed_date=datetime.now().strftime("%d %B %Y"),
-        printed_time=datetime.now().strftime("%H:%M")
+        printed_date=now.strftime("%d %B %Y"),
+        printed_time=now.strftime("%H:%M")
     )
 
     temp_pdf = NamedTemporaryFile(
