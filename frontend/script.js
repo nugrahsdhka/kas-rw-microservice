@@ -1,34 +1,25 @@
-const API_URL = 'http://54.205.212.60:8000/transaksi';
+const API_URL = 'http://100.52.250.214/transaksi';
 
 let allData     = [];
 const PAGE_SIZE = 20;
 const SCROLL_TH = 10;
 let currentPage = 1;
 
-const KETERANGAN_MAX  = 50;   // hard limit
-const KETERANGAN_WARN = 40;    // mulai kuning
+const KETERANGAN_MAX  = 50;   
+const KETERANGAN_WARN = 40;  
 
-/* ── Format helpers ── */
 const fmt = n => 'Rp ' + parseFloat(n).toLocaleString('id-ID');
 
-/**
- * Format angka ke string ribuan: 1500000 → "1.500.000"
- * Hanya digit, titik sebagai separator ribuan (locale id-ID)
- */
 function fmtThousand(raw) {
     const num = parseInt(raw.toString().replace(/\D/g, ''), 10);
     if (isNaN(num) || num === 0) return '';
     return num.toLocaleString('id-ID');
 }
 
-/**
- * Parse string ribuan kembali ke angka: "1.500.000" → 1500000
- */
 function parseThousand(str) {
     return parseInt(str.replace(/\./g, '').replace(/\D/g, ''), 10) || 0;
 }
 
-/* ── Jumlah input behavior ── */
 function bindJumlahInput(displayId, hiddenId) {
     const display = document.getElementById(displayId);
     const hidden  = document.getElementById(hiddenId);
