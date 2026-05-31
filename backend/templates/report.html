@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<title>Laporan Kas RW</title>
+
+<style>
+    /* RESET & BASE */
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    body {
+        font-family: Arial, Helvetica, sans-serif;
+        font-size: 11px;
+        color: #000000;
+        background: #ffffff;
+        padding: 40px 48px;
+        line-height: 1.4;
+    }
+
+    /* WATERMARK */
+    .watermark {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 350px;
+        opacity: 0.05;
+        z-index: 0;
+    }
+
+    .watermark img {
+        width: 100%;
+    }
+
+    .content {
+        position: relative;
+        z-index: 1;
+    }
+
+    /* HEADER */
+    .header {
+        width: 100%;
+        border-bottom: 2px solid #000000;
+        padding-bottom: 16px;
+        margin-bottom: 24px;
+    }
+
+    .header-table {
+        width: 100%;
+    }
+
+    .header-logo {
+        width: 60px;
+        vertical-align: middle;
+    }
+
+    .header-logo img {
+        width: 50px;
+        height: 50px;
+    }
+
+    .header-text {
+        vertical-align: middle;
+    }
+
+    .header-text h1 {
+        font-size: 18px;
+        font-weight: bold;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        color: #000000;
+    }
+
+    .header-text p {
+        font-size: 11px;
+        color: #333333;
+        margin-top: 2px;
+    }
+
+    .header-meta {
+        text-align: right;
+        vertical-align: middle;
+    }
+
+    .doc-title {
+        color: #000000;
+        font-size: 14px;
+        font-weight: bold;
+        text-transform: uppercase;
+        margin-bottom: 4px;
+    }
+
+    .meta {
+        color: #555555;
+        font-size: 10px;
+    }
+
+    /* SUMMARY SECTION (FORMAL BOX) */
+    .summary-box {
+        width: 100%;
+        border-collapse: collapse;
+        border: 1.5px solid #000000;
+        margin-bottom: 32px;
+    }
+
+    .summary-box td {
+        width: 33.33%;
+        padding: 12px 16px;
+        border-right: 1px solid #cccccc;
+        vertical-align: middle;
+    }
+
+    .summary-box td:last-child {
+        border-right: none;
+    }
+
+    .summary-label {
+        font-size: 10px;
+        font-weight: bold;
+        color: #555555;
+        text-transform: uppercase;
+        margin-bottom: 4px;
+    }
+
+    .summary-value {
+        font-size: 12px;
+        font-weight: bold;
+        color: #000000;
+    }
+
+    /* TABLE SECTION */
+    .section-label {
+        font-size: 11px;
+        font-weight: bold;
+        text-transform: uppercase;
+        color: #000000;
+        margin-bottom: 8px;
+    }
+
+    .table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-bottom: 20px;
+    }
+
+    .table thead th {
+        border-top: 2px solid #000000;
+        border-bottom: 1px solid #000000;
+        padding: 10px 12px;
+        font-size: 10px;
+        font-weight: bold;
+        text-transform: uppercase;
+        text-align: left;
+        color: #000000;
+    }
+
+    .table tbody td {
+        padding: 10px 12px;
+        font-size: 11px;
+        border-bottom: 1px solid #eeeeee;
+        vertical-align: top;
+    }
+
+    /* Zebra striping yang sangat tipis untuk kemudahan membaca */
+    .table tbody tr:nth-child(even) {
+        background-color: #fcfcfc;
+    }
+
+    .text-right { text-align: right !important; }
+    .text-center { text-align: center !important; }
+
+    /* Menghilangkan badge, mengganti dengan teks standar */
+    .type-text {
+        font-size: 10px;
+    }
+
+    /* TOTAL ROW (ACCOUNTING STYLE) */
+    .total-row td {
+        border-top: 2px solid #000000;
+        border-bottom: 2px solid #000000;
+        font-weight: bold;
+        font-size: 11px;
+        color: #000000;
+        background-color: #ffffff !important;
+        padding-top: 14px;
+        padding-bottom: 14px;
+    }
+
+    /* FOOTER */
+    .footer {
+        margin-top: 40px;
+        width: 100%;
+        page-break-inside: avoid;
+    }
+
+    .footer-left {
+        float: left;
+        padding-top: 80px; /* Menyesuaikan agar sejajar dengan TTD */
+    }
+
+    .footer-left p {
+        font-size: 10px;
+        color: #555555;
+        margin-bottom: 2px;
+    }
+
+    .footer-right {
+        float: right;
+        text-align: center;
+        width: 220px;
+    }
+
+    .ttd-title {
+        font-size: 11px;
+        font-weight: bold;
+        color: #000000;
+        margin-bottom: 70px;
+    }
+
+    .ttd-name {
+        font-size: 11px;
+        font-weight: bold;
+        color: #000000;
+        text-decoration: underline;
+        margin-bottom: 4px;
+    }
+
+    .ttd-nip {
+        font-size: 10px;
+        color: #333333;
+    }
+    
+    .footer::after {
+        content: "";
+        display: table;
+        clear: both;
+    }
+</style>
+</head>
+<body>
+
+<div class="watermark">
+    <img src="img/Logo.png" alt="Watermark">
+</div>
+
+<div class="content">
+
+    <!-- HEADER -->
+    <div class="header">
+        <table class="header-table">
+            <tr>
+                <td class="header-logo">
+                    <img src="img/Logo.png" alt="Logo">
+                </td>
+                <td class="header-text">
+                    <h1>Kas RW</h1>
+                    <p>Sistem Pencatatan Keuangan Warga</p>
+                </td>
+                <td class="header-meta">
+                    <div class="doc-title">Laporan Keuangan</div>
+                    <div class="meta">Tanggal Cetak: {{ printed_date }}</div>
+                    <div class="meta">Waktu: {{ printed_time }} WIB</div>
+                </td>
+            </tr>
+        </table>
+    </div>
+
+    <!-- SUMMARY SECTION -->
+    <table class="summary-box">
+        <tr>
+            <td>
+                <div class="summary-label">Saldo Saat Ini</div>
+                <div class="summary-value">Rp {{ "{:,.0f}".format(saldo).replace(",", ".") }}</div>
+            </td>
+            <td>
+                <div class="summary-label">Total Pemasukan</div>
+                <div class="summary-value">Rp {{ "{:,.0f}".format(total_income).replace(",", ".") }}</div>
+            </td>
+            <td>
+                <div class="summary-label">Total Pengeluaran</div>
+                <div class="summary-value">Rp {{ "{:,.0f}".format(total_expense).replace(",", ".") }}</div>
+            </td>
+        </tr>
+    </table>
+
+    <!-- TABLE SECTION -->
+    <div class="section-label">Rincian Transaksi</div>
+    <table class="table">
+        <thead>
+            <tr>
+                <th width="40" class="text-center">No</th>
+                <th width="100">Tanggal</th>
+                <th>Keterangan</th>
+                <th width="110" class="text-center">Jenis</th>
+                <th width="130" class="text-right">Jumlah</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for t in transaksi %}
+            <tr>
+                <td class="text-center">{{ loop.index }}</td>
+                <td>{{ t.tanggal }}</td>
+                <td>{{ t.keterangan }}</td>
+                <td class="text-center type-text">
+                    {{ t.tipe }}
+                </td>
+                <td class="text-right">
+                    Rp {{ "{:,.0f}".format(t.jumlah|float).replace(",", ".") }}
+                </td>
+            </tr>
+            {% endfor %}
+            <tr class="total-row">
+                <td colspan="4" class="text-right">SALDO AKHIR</td>
+                <td class="text-right">
+                    Rp {{ "{:,.0f}".format(saldo).replace(",", ".") }}
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+    <!-- FOOTER -->
+    <div class="footer">
+        <div class="footer-left">
+            <p>* Dokumen ini dicetak secara otomatis oleh sistem.</p>
+            <p>&copy; Kas RW - {{ printed_date[-4:] }}</p>
+        </div>
+        <div class="footer-right">
+            <div class="ttd-title">BENDAHARA RW</div>
+            <div class="ttd-name">(______________________________)</div> 
+            <div class="ttd-nip">NIP / ID: ..........................</div>
+        </div>
+    </div>
+
+</div>
+
+</body>
+</html>

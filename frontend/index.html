@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KasRW</title>
+    <link rel="icon" href="img/Logo.png">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/dist/tabler-icons.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- Topbar -->
+    <div class="topbar">
+        <div class="brand">
+            <div class="brand-icon">
+                <img src="img/Logo.png" alt="KasRW Logo">
+            </div>
+
+            <div class="brand-text">
+                <h1>Kas<span class="RW-text">RW</span></h1>
+                <p>Sistem informasi pengelolaan keuangan warga</p>
+            </div>
+        </div>
+        <div class="topbar-right">
+            <button class="icon-btn" id="btn-export">
+                <i class="ti ti-file-download"></i> Export PDF
+            </button>
+            <button class="icon-btn primary" onclick="openAddModal()">
+                <i class="ti ti-plus"></i> Tambah transaksi
+            </button>
+        </div>
+    </div>
+
+    <!-- Main -->
+    <div class="main">
+
+        <!-- Stats (centered) -->
+        <div class="stats-row">
+            <div class="stat-card">
+                <div class="stat-label"><i class="ti ti-wallet" style="font-size:12px"></i> Saldo</div>
+                <div class="stat-value blue" id="saldo">Rp 0</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-label"><i class="ti ti-arrow-down-circle" style="font-size:12px"></i> Pemasukan</div>
+                <div class="stat-value green" id="total-income">Rp 0</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-label"><i class="ti ti-arrow-up-circle" style="font-size:12px"></i> Pengeluaran</div>
+                <div class="stat-value red" id="total-expense">Rp 0</div>
+            </div>
+        </div>
+
+        <!-- Table — full width -->
+        <div class="table-card">
+            <div class="table-header-bar">
+                <h3>Riwayat transaksi</h3>
+                <span class="table-info" id="table-info"></span>
+            </div>
+            <div class="table-wrap" id="table-wrap">
+                <table>
+                    <thead>
+                        <tr>
+                            <th style="width:110px">Tanggal</th>
+                            <th>Keterangan</th>
+                            <th style="width:130px">Jenis</th>
+                            <th style="width:165px">Jumlah</th>
+                            <th style="width:200px">Aksi</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tabel-body">
+                        <tr><td colspan="5"><div class="empty-state"><i class="ti ti-loader"></i>Memuat data...</div></td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="pagination-bar hidden" id="pagination-bar">
+                <span class="page-meta" id="page-meta"></span>
+                <div class="page-btns" id="page-btns"></div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Modal: Tambah Transaksi -->
+    <div class="modal-overlay" id="add-modal">
+        <div class="modal-box">
+            <div class="modal-title"><i class="ti ti-plus"></i> Tambah transaksi</div>
+            <form id="add-form">
+                <div class="field">
+                    <label>Tanggal</label>
+                    <input type="date" id="add-tanggal" required>
+                </div>
+                <div class="field">
+                    <label>Keterangan</label>
+                    <input type="text" id="add-keterangan"
+                           placeholder="mis. iuran bulanan April" required>
+                    <div class="field-meta">
+                        <span class="char-counter" id="add-keterangan-count">0 / 50</span>
+                    </div>
+                </div>
+                <div class="field">
+                    <label>Jumlah (Rp)</label>
+                    <input type="text" id="add-jumlah-display"
+                           class="jumlah-display" placeholder="0" inputmode="numeric" required>
+                    <input type="hidden" id="add-jumlah" value="0">
+                </div>
+                <div class="field">
+                    <label>Jenis transaksi</label>
+                    <div class="select-wrap">
+                        <select id="add-tipe">
+                            <option value="Pemasukan">Pemasukan</option>
+                            <option value="Pengeluaran">Pengeluaran</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn-cancel" onclick="closeModal('add-modal')">Batal</button>
+                    <button type="submit" class="btn-submit">Simpan transaksi</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal: Edit Transaksi -->
+    <div class="modal-overlay" id="edit-modal">
+        <div class="modal-box">
+            <div class="modal-title"><i class="ti ti-edit"></i> Edit transaksi</div>
+            <form id="edit-form">
+                <input type="hidden" id="edit-id">
+                <div class="field">
+                    <label>Tanggal</label>
+                    <input type="date" id="edit-tanggal" required>
+                </div>
+                <div class="field">
+                    <label>Keterangan</label>
+                    <input type="text" id="edit-keterangan" required>
+                    <div class="field-meta">
+                        <span class="char-counter" id="edit-keterangan-count">0 / 50</span>
+                    </div>
+                </div>
+                <div class="field">
+                    <label>Jumlah (Rp)</label>
+                    <input type="text" id="edit-jumlah-display"
+                           class="jumlah-display" placeholder="0" inputmode="numeric" required>
+                    <input type="hidden" id="edit-jumlah" value="0">
+                </div>
+                <div class="field">
+                    <label>Jenis transaksi</label>
+                    <div class="select-wrap">
+                        <select id="edit-tipe">
+                            <option value="Pemasukan">Pemasukan</option>
+                            <option value="Pengeluaran">Pengeluaran</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn-cancel" onclick="closeModal('edit-modal')">Batal</button>
+                    <button type="submit" class="btn-submit edit-mode">Simpan perubahan</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal: Detail Transaksi -->
+    <div class="modal-overlay" id="detail-modal">
+        <div class="modal-box">
+            <div class="modal-title"><i class="ti ti-receipt"></i> Detail transaksi</div>
+            <div id="detail-content"></div>
+            <button class="btn-close-full" onclick="closeModal('detail-modal')">Tutup</button>
+        </div>
+    </div>
+
+    <!-- Modal: Konfirmasi Hapus -->
+    <div class="modal-overlay" id="delete-modal">
+        <div class="modal-box modal-box--sm">
+            <div class="delete-icon-wrap">
+                <i class="ti ti-trash"></i>
+            </div>
+            <div class="delete-modal-title">Hapus transaksi?</div>
+            <div class="delete-modal-desc">
+                Transaksi <strong id="delete-label"></strong> akan dihapus permanen dan tidak bisa dikembalikan.
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn-cancel" onclick="closeModal('delete-modal')">Batal</button>
+                <button type="button" class="btn-danger" id="btn-confirm-delete">Ya, hapus</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
