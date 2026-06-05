@@ -105,17 +105,17 @@ body {
 /* ── Stats ── */
 .stats-row {
     display: grid;
-    grid-template-columns: repeat(3, minmax(0, 220px));
-    gap: 10px;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 12px;
     margin-bottom: 1.5rem;
-    justify-content: center;
 }
 
 .stat-card {
+    width: 100%;
     background: var(--surface);
     border: 0.5px solid var(--border);
     border-radius: var(--radius-m);
-    padding: 1rem 1.25rem;
+    padding: 1.25rem 1.5rem;
 }
 
 .stat-label {
@@ -126,9 +126,13 @@ body {
 }
 
 .stat-value {
-    font-size: 19px; font-weight: 600;
+    font-size: clamp(18px, 3.5vw, 32px);
+    font-weight: 600;
     letter-spacing: -0.02em;
     font-family: 'DM Mono', monospace;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .stat-value.blue  { color: var(--blue-600); }
