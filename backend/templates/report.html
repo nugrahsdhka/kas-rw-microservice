@@ -304,7 +304,9 @@
             <tr>
                 <td class="text-center">{{ loop.index }}</td>
                 <td>{{ t.tanggal }}</td>
-                <td>{{ t.keterangan }}</td>
+                <td style="max-width:150px; word-wrap:break-word; white-space:pre-wrap;">
+                    {{ t.keterangan }}
+                </td>
                 <td class="text-center type-text">
                     {{ t.tipe }}
                 </td>
