@@ -5,8 +5,8 @@ const PAGE_SIZE = 20;
 const SCROLL_TH = 10;
 let currentPage = 1;
 
-const KETERANGAN_MAX  = 50;   
-const KETERANGAN_WARN = 40;  
+const KETERANGAN_MAX  = 25;   
+const KETERANGAN_WARN = 15;  
 
 const fmt = n => 'Rp ' + parseFloat(n).toLocaleString('id-ID');
 
