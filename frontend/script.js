@@ -1,4 +1,4 @@
-const API_URL = 'http://107.22.144.208:8000/transaksi';
+const API_URL = 'http://54.172.46.35:8000/transaksi';
 
 let allData     = [];
 const PAGE_SIZE = 20;
